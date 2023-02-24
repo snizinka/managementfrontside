@@ -15,11 +15,12 @@ class AuthController extends Controller
         $response = Http::post('http://127.0.0.1:8000/api/login', [
             'email' => $request->email,
             'password' => $request->password
-        ])->json();
+        ]);
 
-        if ($response['data'] == '404') {
-            return redirect()->route('login');
+        if ($response->status() == 401) {
+            return redirect()->route('login', compact($response->json()['data']));
         }
+        $response = $response->json();
 
         session(['token' => $response['data']['token']]);
         session(['role' => $response['data']['user']['role']]);
