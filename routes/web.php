@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DishController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,3 +23,7 @@ Route::get('/logouts', [AuthController::class, 'logout'])->name('logout');
 Route::get('/restaurant/{name}', [RestaurantController::class, 'restaurant'])->name('restaurant')->middleware('isauthorized');
 
 Route::get('/home', [Controller::class, 'home']);
+
+Route::prefix('admin')->group(function () {
+    Route::resource('dish',DishController::class);
+});
