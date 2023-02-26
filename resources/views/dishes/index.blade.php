@@ -7,13 +7,15 @@
         <div>
             <a href="{{route('dish.create')}}">Add a new dish</a>
 
-            <div>
+            <div class="dish-list">
         @foreach($dishes as $dish)
-            <div>
-                <a href="{{route('dish.show', $dish['id'])}}">{{$dish['id']}}</a>
-                <p>{{$dish['attributes']['name']}}</p>
-                <p>{{$dish['attributes']['price']}}</p>
+                    <a href="{{route('dish.show', $dish['id'])}}">
+                 <div class="dish">
+                <p><strong>{{$dish['attributes']['name']}}</strong></p>
+                <p>Price: {{$dish['attributes']['price']}}</p>
+                <p>Restaurant: <strong>{{$dish['relationships']['restaurant']['name']}}</strong></p>
             </div>
+                </a>
         @endforeach
         </div>
         </div>

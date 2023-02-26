@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DishController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,4 +27,5 @@ Route::get('/home', [Controller::class, 'home']);
 
 Route::prefix('admin')->group(function () {
     Route::resource('dish',DishController::class);
+    Route::resource('order',OrderController::class);
 });
