@@ -24,6 +24,8 @@ class AuthController extends Controller
 
         session(['token' => $response['data']['token']]);
         session(['role' => $response['data']['user']['role']]);
+
+        return redirect()->route('home');
     }
 
     public function showSignup() {

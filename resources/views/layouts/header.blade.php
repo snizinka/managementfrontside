@@ -12,14 +12,17 @@
 <div class="container">
     <nav>
         <ul>
-            @guest()
+            @if(session('token') == null)
                 <li><a href="{{route('login')}}">Log in</a></li>
                 <li><a href="{{route('register')}}">Register</a></li>
+            @else
+                <li><a href="{{route('logout')}}">Log out</a></li>
+            @endif
                 @if(session('role') == 'admin')
-                    <li><a href="{{route('register')}}">Add Restaurant</a></li>
+                    <li><a href="{{route('register')}}">Restaurants</a></li>
                     <li><a href="{{route('register')}}">Orders</a></li>
+                    <li><a href="{{route('register')}}">Dishes</a></li>
                 @endif
-            @endguest
         </ul>
     </nav>
 
