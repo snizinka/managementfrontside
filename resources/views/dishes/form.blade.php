@@ -69,4 +69,7 @@
         <button type="submit">@if(isset($dish))Edit @else Add @endif</button>
     </form>
 
+    @isset($dish)
+        <a href="{{route('dish.destroy', $dish['id'])}}">Remove</a>
+    @endisset
 @endsection
