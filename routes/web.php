@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController as RC;
 use App\Http\Controllers\DishController as DC;
 use App\Http\Controllers\CartController as CC;
+use App\Http\Controllers\OrderController as OC;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +29,7 @@ Route::get('/home', [Controller::class, 'home'])->name('home');
 
 Route::get('/restaurants', [RC::class, 'getRestaurants'])->name('restaurant');
 
-Route::get('/restaurants/{id}', [RC::class, 'getRestaurant']);
+Route::get('/restaurants/{id}', [RC::class, 'getRestaurant'])->name('restaurants');
 
 Route::get('/dishes/{id}', [DC::class, 'showDish'])->name('dishes');
 
@@ -37,6 +38,10 @@ Route::post('/cart/{id}', [CC::class, 'addToCart'])->name('dishesAdd');
 Route::get('/cart', [CC::class, 'showCart'])->name('cart');
 
 Route::get('/cart/remove/{id}', [CC::class, 'removeItem'])->name('cartRemove');
+
+Route::get('/order', [OC::class, 'orderForm'])->name('order');
+
+Route::post('/order', [OC::class, 'order'])->name('orderMake');
 
 Route::prefix('admin')->middleware(['isadmin'])->group(function () {
     Route::resource('dish',DishController::class);

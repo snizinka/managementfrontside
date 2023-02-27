@@ -2,18 +2,19 @@
 
 @section('content')
     <div>
-        <h1>CART</h1>
+        <h1 style="margin-bottom: 60px;">CART</h1>
 
-        <div>
+        <div class="cart">
 
             <div class="dish-list">
                 @foreach($dishes as $dish)
-                    <a href="{{route('dish.show', $dish['relationships']['dish']['id'])}}">
+                    <a href="{{route('dishes', $dish['relationships']['dish']['id'])}}">
                         <div class="dish">
                            <div>
                                <p>"{{$dish['relationships']['dish']['name']}}"</p>
                                <p>Price: {{$dish['relationships']['dish']['price']}}</p>
                                <p>Ingredients: {{$dish['relationships']['dish']['ingredients']}}</p>
+                               <p>Restaurant: <strong>{{$dish['relationships']['restaurant']['name']}}</strong></p>
                                <p>Amount: <strong>{{$dish['attributes']['count']}}</strong></p>
                            </div>
                             <div>
@@ -31,6 +32,8 @@
                 @endforeach
             </div>
         </div>
+        <h2>Total: {{$total}}$</h2>
 
+        <a href="{{route('order')}}">Order</a>
     </div>
 @endsection

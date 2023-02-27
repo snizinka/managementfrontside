@@ -18,7 +18,12 @@ class CartController extends Controller
 
         $dishes = $response->json()['data'];
 
-        return view('cart.index', compact('dishes'));
+        $total = 0;
+        foreach ($dishes as $dish) {
+            $total += (float) $dish['relationships']['dish']['price'] * $dish['attributes']['count'];
+        }
+
+        return view('cart.index', compact('dishes', 'total'));
     }
 
     public function addToCart(string $id) {
