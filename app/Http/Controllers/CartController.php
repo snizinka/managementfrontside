@@ -16,8 +16,13 @@ class CartController extends Controller
             dd("Problems");
         }
 
-        $dishes = $response->json()['data'];
+        $dishes = $response->json();
 
+        if ($dishes == []) {
+            return view('cart.index', compact('dishes'));
+        }
+
+        $dishes = $dishes['data'];
         $total = 0;
         foreach ($dishes as $dish) {
             $total += (float) $dish['relationships']['dish']['price'] * $dish['attributes']['count'];

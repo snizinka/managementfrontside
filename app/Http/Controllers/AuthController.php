@@ -33,12 +33,30 @@ class AuthController extends Controller
     }
 
     public function signup(Request $request) {
-        $response = Http::post('http://127.0.0.1:8000/api/register', [
+        $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
+        ])->post('http://127.0.0.1:8000/api/register', [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'password_confirmation' => $request->password_confirmation
-        ])->json();
+        ]);
+
+        if ($response->status() != 200) {
+            $errors = $response->json()['errors'];
+
+            /*$errors = array();
+            foreach ($badresponse as $br) {
+                foreach ($br as $b) {
+                    array_push($errors, $b);
+                }
+            }*/
+
+            return view('auth.signup', compact('errors'));
+        }
+
+        $response = $response->json();
 
         return redirect()->route('login');
     }

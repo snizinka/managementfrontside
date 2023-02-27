@@ -32,8 +32,13 @@
                 @endforeach
             </div>
         </div>
-        <h2>Total: {{$total}}$</h2>
+        <h2>
+    @isset($total)
+                Total: {{$total}}$
+
+</h2>
 
         <a href="{{route('order')}}">Order</a>
+        @endisset
     </div>
 @endsection

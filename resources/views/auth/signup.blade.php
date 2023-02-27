@@ -15,11 +15,6 @@
                 <div class="card">
                     <div class="card-header">{{ __('Register') }}</div>
 
-                    <ul>
-                        @foreach($errors->all() as $message)
-                            <li>{{$message}}</li>
-                        @endforeach
-                    </ul>
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}" novalidate>
                             @csrf
@@ -28,13 +23,19 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                                    @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    @isset($errors)
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>
+                                                @isset($errors['name'])
+                                                        @foreach($errors['name'] as $error)
+                                                            <p>{{$error}}</p>
+                                                        @endforeach
+                                                @endisset
+                                            </strong>
+                                        </span>
+                                    @endisset
                                 </div>
                             </div>
 
@@ -42,13 +43,18 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                    @isset($errors)
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>
+                                                @isset($errors['email'])
+                                                    @foreach($errors['email'] as $error)
+                                                        <p>{{$error}}</p>
+                                                    @endforeach
+                                                @endisset
+                                            </strong>
+                                        </span>
+                                    @endisset
                                 </div>
                             </div>
 
@@ -56,13 +62,18 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+                                    @isset($errors)
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>
+                                                @isset($errors['password'])
+                                                    @foreach($errors['password'] as $error)
+                                                        <p>{{$error}}</p>
+                                                    @endforeach
+                                                @endisset
+                                            </strong>
+                                        </span>
+                                    @endisset
                                 </div>
                             </div>
 
