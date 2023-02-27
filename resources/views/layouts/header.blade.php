@@ -19,9 +19,9 @@
                 <li><a href="{{route('logout')}}">Log out</a></li>
             @endif
                 @if(session('role') == 'admin')
-                    <li><a href="{{route('register')}}">Restaurants</a></li>
-                    <li><a href="{{route('register')}}">Orders</a></li>
-                    <li><a href="{{route('register')}}">Dishes</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('order.index')}}">Orders</a></li>
+                    <li><a href="{{route('dish.index')}}">Dishes</a></li>
                 @endif
         </ul>
     </nav>

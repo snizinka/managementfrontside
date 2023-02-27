@@ -20,12 +20,12 @@ class RestaurantController extends Controller
 
         $restaurants = $response->json()['data'];
 
-        return view('restaurants.index', compact('restaurants'));
+        return view('admin.restaurants.index', compact('restaurants'));
     }
 
     public function create()
     {
-        return view('restaurants.form');
+        return view('admin.restaurants.form');
     }
     public function store(Request $request)
     {
@@ -53,7 +53,7 @@ class RestaurantController extends Controller
 
         $restaurants = $response->json()['data'];
 
-        return view('restaurants.show', compact('restaurants'));
+        return view('admin.restaurants.show', compact('restaurants'));
     }
     public function edit(string $id)
     {
@@ -68,7 +68,7 @@ class RestaurantController extends Controller
 
         $restaurants = $response->json()['data'];
 
-        return view('restaurants.form', compact('restaurants'));
+        return view('admin.restaurants.form', compact('restaurants'));
     }
     public function update(Request $request, string $id)
     {

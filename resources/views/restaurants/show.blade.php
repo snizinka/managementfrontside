@@ -4,16 +4,24 @@
     <div>
         <h1>{{$restaurants['attributes']['address']}}</h1>
 
-        <form action="{{route('restaurant.destroy', $restaurants['id'])}}" method="POST">
+        <div>
             <p>Status: {{$restaurants['attributes']['name']}}</p>
             <p>Address: {{$restaurants['attributes']['address']}}</p>
             <p>Address: {{$restaurants['attributes']['contacts']}}</p>
-            <a href="{{route('restaurant.edit', $restaurants['id'])}}">Edit</a>
 
-            @csrf
-            @method('DELETE')
-            <input type="submit" value="Remove">
-        </form>
-
+            <h2>Menu</h2>
+                <div class="dish-list">
+                    @foreach($dishes as $dish)
+                        <a href="#">
+                            <div class="dish">
+                                <p><strong>{{$dish['attributes']['name']}}</strong></p>
+                                <p>Price: {{$dish['attributes']['price']}}</p>
+                                <p>Restaurant: <strong>{{$dish['relationships']['restaurant']['name']}}</strong></p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+    </div>
     </div>
 @endsection
