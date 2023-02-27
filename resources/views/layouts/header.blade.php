@@ -17,6 +17,7 @@
                 <li><a href="{{route('register')}}">Register</a></li>
             @else
                 <li><a href="{{route('logout')}}">Log out</a></li>
+                <li><a href="{{route('cart')}}">Cart</a></li>
             @endif
                 @if(session('role') == 'admin')
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>

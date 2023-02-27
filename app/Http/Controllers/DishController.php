@@ -20,16 +20,4 @@ class DishController extends Controller
 
         return view('dishes.show', compact('dish'));
     }
-
-    public function addToCart(string $id) {
-        $responseD = Http::withHeaders([
-            'Accept' => 'application/vnd.api+json',
-            'Content-Type' => 'application/vnd.api+json',
-            'Authorization' => 'Bearer ' . session('token'),
-        ])->post('http://127.0.0.1:8000/api/cart/add', [
-            'id' => $id,
-        ]);
-
-        return redirect()->route('dishes', $id);
-    }
 }
