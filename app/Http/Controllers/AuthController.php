@@ -12,10 +12,19 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
-        $response = Http::post('http://127.0.0.1:8000/api/login', [
+        $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
+        ])->post('http://127.0.0.1:8000/api/login', [
             'email' => $request->email,
             'password' => $request->password
         ]);
+
+        if ($response->status() != 200) {
+            $error = $response->json()['errors'];
+
+            return view('auth.login', compact('error'));
+        }
 
         if ($response->status() == 401) {
             return redirect()->route('login', compact($response->json()['data']));
@@ -44,19 +53,10 @@ class AuthController extends Controller
         ]);
 
         if ($response->status() != 200) {
-            $errors = $response->json()['errors'];
+            $error = $response->json()['errors'];
 
-            /*$errors = array();
-            foreach ($badresponse as $br) {
-                foreach ($br as $b) {
-                    array_push($errors, $b);
-                }
-            }*/
-
-            return view('auth.signup', compact('errors'));
+            return view('auth.signup', compact('error'));
         }
-
-        $response = $response->json();
 
         return redirect()->route('login');
     }
@@ -64,6 +64,8 @@ class AuthController extends Controller
     public function logout() {
         Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->post('http://127.0.0.1:8000/api/logout')->json();
 
         Session::forget(['role', 'token']);

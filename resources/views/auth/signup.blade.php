@@ -25,12 +25,12 @@
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                                    @isset($errors)
+                                    @isset($error)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($errors['name'])
-                                                        @foreach($errors['name'] as $error)
-                                                            <p>{{$error}}</p>
+                                                @isset($error['name'])
+                                                        @foreach($error['name'] as $erro)
+                                                            <p>{{$erro}}</p>
                                                         @endforeach
                                                 @endisset
                                             </strong>
@@ -44,12 +44,12 @@
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email">
-                                    @isset($errors)
+                                    @isset($error)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($errors['email'])
-                                                    @foreach($errors['email'] as $error)
-                                                        <p>{{$error}}</p>
+                                                @isset($error['email'])
+                                                    @foreach($error['email'] as $erro)
+                                                        <p>{{$erro}}</p>
                                                     @endforeach
                                                 @endisset
                                             </strong>
@@ -63,12 +63,12 @@
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
-                                    @isset($errors)
+                                    @isset($error)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($errors['password'])
-                                                    @foreach($errors['password'] as $error)
-                                                        <p>{{$error}}</p>
+                                                @isset($error['password'])
+                                                    @foreach($error['password'] as $erro)
+                                                        <p>{{$erro}}</p>
                                                     @endforeach
                                                 @endisset
                                             </strong>
