@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController as RC;
+use App\Http\Controllers\DishController as DC;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +28,10 @@ Route::get('/home', [Controller::class, 'home'])->name('home');
 Route::get('/restaurants', [RC::class, 'getRestaurants'])->name('restaurant');
 
 Route::get('/restaurants/{id}', [RC::class, 'getRestaurant']);
+
+Route::get('/dishes/{id}', [DC::class, 'showDish'])->name('dishes');
+
+Route::post('/dishes/{id}', [DC::class, 'addToCart'])->name('dishesAdd');
 
 Route::prefix('admin')->middleware(['isadmin'])->group(function () {
     Route::resource('dish',DishController::class);
