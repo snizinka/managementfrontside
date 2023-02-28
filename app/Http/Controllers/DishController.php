@@ -22,6 +22,10 @@ class DishController extends Controller
             }
         }
 
+        if($response->json() == []) {
+            return redirect()->route('restaurant');
+        }
+
         $dish = $response->json()['data'];
 
         return view('dishes.show', compact('dish'));

@@ -71,6 +71,10 @@ class RestaurantController extends Controller
             }
         }
 
+        if($response->json() == []) {
+            return redirect()->route('restaurant');
+        }
+
         $restaurants = $response->json()['data'];
 
         return view('admin.restaurants.show', compact('restaurants'));
@@ -90,6 +94,10 @@ class RestaurantController extends Controller
 
                 return view('auth.login', compact('unauthorized'));
             }
+        }
+
+        if($response->json() == []) {
+            return redirect()->route('restaurant');
         }
 
         $restaurants = $response->json()['data'];

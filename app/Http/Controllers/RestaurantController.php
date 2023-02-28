@@ -48,6 +48,10 @@ class RestaurantController extends Controller
             }
         }
 
+        if($response->json() == []) {
+            return redirect()->route('restaurant');
+        }
+
         $restaurants = $response->json()['data'];
         $dishes = $responseD->json()['data'];
 
