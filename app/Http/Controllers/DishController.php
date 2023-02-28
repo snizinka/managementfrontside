@@ -14,7 +14,7 @@ class DishController extends Controller
             'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/dishes/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 

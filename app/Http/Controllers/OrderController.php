@@ -22,6 +22,18 @@ class OrderController extends Controller
             'username' => $request->username,
         ]);
 
+        if ($response->status() >= 300) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('order')->withErrors($error);
+            }
+        }
+
         if ($response->status() != 200) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];

@@ -14,7 +14,7 @@ class CartController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/cart');
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -45,6 +45,18 @@ class CartController extends Controller
         ])->post('http://127.0.0.1:8000/api/cart/add', [
             'id' => $id,
         ]);
+
+        if ($response->status() >= 300) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('cart.index')->withErrors($error);
+            }
+        }
 
         if ($response->status() != 200) {
             if ($response->status() == 401) {

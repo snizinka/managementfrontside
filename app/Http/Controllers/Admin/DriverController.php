@@ -15,7 +15,7 @@ class DriverController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/drivers');
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -40,7 +40,7 @@ class DriverController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/drivers/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -72,7 +72,19 @@ class DriverController extends Controller
             'name' => $request->name,
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('addDriver')->withErrors($error);
+            }
+        }
+
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -90,7 +102,7 @@ class DriverController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/drivers/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -113,11 +125,15 @@ class DriverController extends Controller
             'name' => $request->name,
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
                 return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('updateFormDriver', $id)->withErrors($error);
             }
         }
 
@@ -131,7 +147,7 @@ class DriverController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->delete('http://127.0.0.1:8000/api/drivers/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 

@@ -16,7 +16,7 @@ class RestaurantController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/restaurants');
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -45,11 +45,15 @@ class RestaurantController extends Controller
             'contacts' => $request->restaurantcontacts,
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
                 return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('restaurant.create')->withErrors($error);
             }
         }
 
@@ -63,7 +67,7 @@ class RestaurantController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -88,7 +92,7 @@ class RestaurantController extends Controller
         ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
 
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
@@ -116,11 +120,15 @@ class RestaurantController extends Controller
             'contacts' => $request->restaurantcontacts,
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 
                 return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('restaurant.edit', $id)->withErrors($error);
             }
         }
 
@@ -134,7 +142,7 @@ class RestaurantController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->delete('http://127.0.0.1:8000/api/restaurants/'.$id);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             if ($response->status() == 401) {
                 $unauthorized = $response->json()['errors'];
 

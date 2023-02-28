@@ -75,8 +75,8 @@ class OrderController extends Controller
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/drivers');
 
-        if ($response->status() != 200 || $responseB->status() != 200) {
-            if ($response->status() == 401 || $responseB->status() != 200) {
+        if ($response->status() >= 300 || $responseB->status() >= 300) {
+            if ($response->status() >= 300 || $responseB->status() >= 300) {
                 $unauthorized = $response->json()['errors'] == null ? $responseB->json()['errors'] : $response->json()['errors'];
 
                 return view('auth.login', compact('unauthorized'));

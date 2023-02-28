@@ -25,12 +25,31 @@
                    value="{{$driver['attributes']['lastname']}}"
             @endisset
         >
+        @isset($errors)
+            <span class="invalid-feedback" role="alert">
+                <strong>
+                    @if($errors->has('lastname'))
+                        <p>{{$errors->first('lastname')}}</p>
+                    @endif
+                </strong>
+            </span>
+        @endisset
+
         <p>Driver's name</p>
         <input type="text" name="name"
                @isset($driver)
                    value="{{$driver['attributes']['name']}}"
             @endisset
         >
+        @isset($errors)
+            <span class="invalid-feedback" role="alert">
+                <strong>
+                    @if($errors->has('name'))
+                        <p>{{$errors->first('name')}}</p>
+                    @endif
+                </strong>
+            </span>
+        @endisset
 
         <button type="submit">@if(isset($driver))Edit @else Add @endif</button>
     </form>

@@ -20,10 +20,10 @@ class AuthController extends Controller
             'password' => $request->password
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             $error = $response->json()['errors'];
 
-            return view('auth.login', compact('error'));
+            return redirect()->route('login')->withErrors($error);
         }
 
         $response = $response->json();
@@ -49,10 +49,10 @@ class AuthController extends Controller
             'password_confirmation' => $request->password_confirmation
         ]);
 
-        if ($response->status() != 200) {
+        if ($response->status() >= 300) {
             $error = $response->json()['errors'];
 
-            return view('auth.signup', compact('error'));
+            return view('auth.signup', compact('error'))->withErrors($error);
         }
 
         return redirect()->route('login');

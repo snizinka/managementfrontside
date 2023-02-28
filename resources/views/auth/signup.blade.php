@@ -25,16 +25,14 @@
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                                    @isset($error)
+                                    @isset($errors)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($error['name'])
-                                                        @foreach($error['name'] as $erro)
-                                                            <p>{{$erro}}</p>
-                                                        @endforeach
-                                                @endisset
+                                                @if($errors->has('name'))
+                                                    <p>{{$errors->first('name')}}</p>
+                                                @endif
                                             </strong>
-                                        </span>
+                                         </span>
                                     @endisset
                                 </div>
                             </div>
@@ -44,16 +42,14 @@
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email">
-                                    @isset($error)
+                                    @isset($errors)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($error['email'])
-                                                    @foreach($error['email'] as $erro)
-                                                        <p>{{$erro}}</p>
-                                                    @endforeach
-                                                @endisset
+                                                @if($errors->has('email'))
+                                                    <p>{{$errors->first('email')}}</p>
+                                                @endif
                                             </strong>
-                                        </span>
+                                         </span>
                                     @endisset
                                 </div>
                             </div>
@@ -63,16 +59,14 @@
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
-                                    @isset($error)
+                                    @isset($errors)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($error['password'])
-                                                    @foreach($error['password'] as $erro)
-                                                        <p>{{$erro}}</p>
-                                                    @endforeach
-                                                @endisset
+                                                @if($errors->has('password'))
+                                                    <p>{{$errors->first('password')}}</p>
+                                                @endif
                                             </strong>
-                                        </span>
+                                         </span>
                                     @endisset
                                 </div>
                             </div>
