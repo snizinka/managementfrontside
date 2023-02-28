@@ -10,6 +10,7 @@ use App\Http\Controllers\RestaurantController as RC;
 use App\Http\Controllers\DishController as DC;
 use App\Http\Controllers\CartController as CC;
 use App\Http\Controllers\OrderController as OC;
+use App\Http\Controllers\Admin\DriverController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,20 @@ Route::get('/cart/remove/{id}', [CC::class, 'removeItem'])->name('cartRemove');
 Route::get('/order', [OC::class, 'orderForm'])->name('order');
 
 Route::post('/order', [OC::class, 'order'])->name('orderMake');
+
+Route::get('/drivers', [DriverController::class, 'getDrivers'])->name('getDrivers');
+
+Route::get('/drivers/add', [DriverController::class, 'addDriver'])->name('addDriver');
+
+Route::post('/drivers/add', [DriverController::class, 'insertDriver'])->name('insertDriver');
+
+Route::get('/drivers/update/{id}', [DriverController::class, 'updateFormDriver'])->name('updateFormDriver');
+
+Route::get('/drivers/{id}', [DriverController::class, 'showDriver'])->name('showDriver');
+
+Route::put('/drivers/{id}', [DriverController::class, 'updateDriver'])->name('updateDriver');
+
+Route::delete('/drivers/{id}', [DriverController::class, 'removeDriver'])->name('removeDriver');
 
 Route::prefix('admin')->middleware(['isadmin'])->group(function () {
     Route::resource('dish',DishController::class);

@@ -22,8 +22,9 @@
             @endif
                 @if(session('role') == 'admin')
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                    <li><a href="{{route('order.index')}}">Orders</a></li>
                     <li><a href="{{route('dish.index')}}">Dishes</a></li>
+                    <li><a href="{{route('getDrivers')}}">Drivers</a></li>
+                    <li><a href="{{route('order.index')}}">Orders</a></li>
                 @endif
         </ul>
     </nav>
