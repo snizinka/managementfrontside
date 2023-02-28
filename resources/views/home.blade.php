@@ -6,6 +6,11 @@
 
         <div>
             <div class="dish-list">
+                @if(count($restaurants) == 0)
+                    <div class="empty-array">
+                        <h2>There is nothing to show :)</h2>
+                    </div>
+                @endif
                 @foreach($restaurants as $restaurant)
                     <a href="{{route('restaurants', $restaurant['id'])}}">
                         <div class="dish">

@@ -7,6 +7,11 @@
         <div>
 
             <div class="dish-list">
+                @if(count($orders) == 0)
+                    <div class="empty-array">
+                        <h2>There are no orders made by this time :\</h2>
+                    </div>
+                @endif
                 @foreach($orders as $order)
                     <a href="{{route('order.show', $order['id'])}}">
                         <div class="dish">
