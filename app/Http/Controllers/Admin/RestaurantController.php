@@ -11,11 +11,17 @@ class RestaurantController extends Controller
     public function index()
     {
         $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/restaurants');
 
-        if ($response->status() == 401) {
-            dd("Problems");
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $restaurants = $response->json()['data'];
@@ -29,7 +35,7 @@ class RestaurantController extends Controller
     }
     public function store(Request $request)
     {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
@@ -39,16 +45,30 @@ class RestaurantController extends Controller
             'contacts' => $request->restaurantcontacts,
         ]);
 
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
+
         return redirect()->route('restaurant.index');
     }
     public function show(string $id)
     {
         $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
 
-        if ($response->status() == 401) {
-            dd("Problems");
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $restaurants = $response->json()['data'];
@@ -58,12 +78,18 @@ class RestaurantController extends Controller
     public function edit(string $id)
     {
         $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
         ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
 
 
-        if ($response->status() == 401) {
-            dd("Problems");
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $restaurants = $response->json()['data'];
@@ -72,7 +98,7 @@ class RestaurantController extends Controller
     }
     public function update(Request $request, string $id)
     {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
@@ -82,15 +108,31 @@ class RestaurantController extends Controller
             'contacts' => $request->restaurantcontacts,
         ]);
 
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
+
         return redirect()->route('restaurant.index');
     }
     public function destroy(string $id)
     {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
         ])->delete('http://127.0.0.1:8000/api/restaurants/'.$id);
+
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
 
         return redirect()->route('restaurant.index');
     }

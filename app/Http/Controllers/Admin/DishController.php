@@ -12,10 +12,16 @@ class DishController extends Controller
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/dishes');
 
-        if ($response->status() == 401) {
-            dd("Problems");
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $dishes = $response->json()['data'];
@@ -30,11 +36,29 @@ class DishController extends Controller
     {
         $responseC = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/categories');
 
         $responseR = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/restaurants');
+
+        if ($responseC->status() != 200) {
+            if ($responseC->status() == 401) {
+                $unauthorized = $responseC->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }else if ($responseR->status() != 200) {
+            if ($responseR->status() == 401) {
+                $unauthorized = $responseR->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
 
         $categories = $responseC->json()['data'];
         $restaurants = $responseR->json()['data'];
@@ -59,6 +83,14 @@ class DishController extends Controller
             'restaurant_id' => (int)$request->dishrestaurant
         ]);
 
+        if ($responseD->status() != 200) {
+            if ($responseD->status() == 401) {
+                $unauthorized = $responseD->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
+
         return redirect()->route('dish.index');
     }
 
@@ -69,10 +101,16 @@ class DishController extends Controller
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/dishes/'.$id);
 
-        if ($response->status() == 401) {
-            return view('notauthenticated');
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $dish = $response->json()['data'];
@@ -87,18 +125,40 @@ class DishController extends Controller
     {
         $responseD = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/dishes/'.$id);
 
         $responseC = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/categories');
 
         $responseR = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/restaurants');
 
-        if ($responseD->status() == 401 || $responseC->status() == 401 || $responseR->status() == 401) {
-            dd("Problems");
+        if ($responseD->status() != 200) {
+            if ($responseD->status() == 401) {
+                $unauthorized = $responseD->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }else if ($responseC->status() != 200) {
+            if ($responseC->status() == 401) {
+                $unauthorized = $responseC->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        } else if ($responseR->status() != 200) {
+            if ($responseR->status() == 401) {
+                $unauthorized = $responseR->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $dish = $responseD->json()['data'];
@@ -113,7 +173,7 @@ class DishController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
@@ -125,6 +185,13 @@ class DishController extends Controller
             'restaurant_id' => (int)$request->dishrestaurant
         ]);
 
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
 
         return redirect()->route('dish.index');
     }
@@ -134,11 +201,19 @@ class DishController extends Controller
      */
     public function destroy(string $id)
     {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
         ])->delete('http://127.0.0.1:8000/api/dishes/'.$id);
+
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
 
         return redirect()->route('dish.index');
     }

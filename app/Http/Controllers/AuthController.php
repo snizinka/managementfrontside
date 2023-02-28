@@ -26,9 +26,6 @@ class AuthController extends Controller
             return view('auth.login', compact('error'));
         }
 
-        if ($response->status() == 401) {
-            return redirect()->route('login', compact($response->json()['data']));
-        }
         $response = $response->json();
 
         session(['token' => $response['data']['token']]);

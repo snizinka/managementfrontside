@@ -10,10 +10,16 @@ class DishController extends Controller
     public function showDish(string $id) {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
         ])->get('http://127.0.0.1:8000/api/dishes/'.$id);
 
-        if ($response->status() == 401) {
-            dd("Problems");
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
         }
 
         $dish = $response->json()['data'];
