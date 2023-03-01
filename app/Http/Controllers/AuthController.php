@@ -17,7 +17,8 @@ class AuthController extends Controller
             'Content-Type' => 'application/vnd.api+json',
         ])->post('http://127.0.0.1:8000/api/login', [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
+            'remember' => $request->remember
         ]);
 
         if ($response->status() >= 300) {
