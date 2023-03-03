@@ -70,4 +70,53 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
+
+    public function resetView() {
+        return view('auth.reset');
+    }
+
+    public function reset(Request $request) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
+        ])->post('http://127.0.0.1:8000/api/reset', [
+            'email' => $request->email
+        ]);
+
+        if ($response->status() >= 300) {
+            $error = $response->json()['errors'];
+
+            return redirect()->route('resetView')->withErrors($error);
+        }
+
+        Session::forget(['role', 'token']);
+
+        return redirect()->route('login');
+    }
+
+    public function resetpassword() {
+
+        return view('auth.newpassword');
+    }
+
+    public function confirmReset(Request $request) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . session('token'),
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
+        ])->put('http://127.0.0.1:8000/api/reset', [
+            'password' => $request->password,
+            'confirm' => $request->confirm
+        ]);
+
+        if ($response->status() >= 300) {
+            $error = $response->json()['errors'];
+
+            return redirect()->route('resetpassword')->withErrors($error);
+        }
+
+        Session::forget(['role', 'token']);
+        return redirect()->route('login');
+    }
 }

@@ -13,7 +13,7 @@ use App\Http\Controllers\OrderController as OC;
 use App\Http\Controllers\Admin\DriverController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware(['iscustomer'])->group(function () {
@@ -32,6 +32,10 @@ Route::middleware(['iscustomer'])->group(function () {
     Route::get('/order', [OC::class, 'orderForm'])->name('order');
 
     Route::post('/order', [OC::class, 'order'])->name('orderMake');
+
+    Route::get('/resetpassword', [AuthController::class, 'resetpassword'])->name('resetpassword');
+
+    Route::put('/confirmReset', [AuthController::class, 'confirmReset'])->name('confirmReset');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('isnotauthorized');
@@ -43,6 +47,10 @@ Route::get('/register', [AuthController::class, 'showSignup'])->name('register')
 Route::post('/register', [AuthController::class, 'signup'])->name('register-store');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/reset', [AuthController::class, 'resetView'])->name('resetView');
+
+Route::post('/reset', [AuthController::class, 'reset'])->name('reset');
 
 Route::get('/home', [Controller::class, 'home'])->name('home');
 
