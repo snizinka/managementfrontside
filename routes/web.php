@@ -13,7 +13,12 @@ use App\Http\Controllers\OrderController as OC;
 use App\Http\Controllers\Admin\DriverController;
 
 Route::get('/', function () {
-    return view('home');
+    if (session('role') == null)
+    {
+        return redirect()->route('login');
+    }else {
+        return redirect()->route('home');
+    }
 });
 
 Route::middleware(['iscustomer'])->group(function () {

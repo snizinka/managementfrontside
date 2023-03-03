@@ -12,9 +12,13 @@
                     </div>
                 @endif
                 @foreach($restaurants as $restaurant)
-                    <a href="{{route('restaurants', $restaurant['id'])}}">
+                    <a href=@if(session('role') == 'admin')
+                                "{{route('restaurant.show', $restaurant['id'])}}"
+                    @else
+                            "{{route('restaurants', $restaurant['id'])}}"
+                    @endif>
                         <div class="dish">
-                            <p>Order status:<strong>{{$restaurant['attributes']['name']}}</strong></p>
+                            <p>Restaurant:<strong>{{$restaurant['attributes']['name']}}</strong></p>
                             <p>Address:<strong>{{$restaurant['attributes']['address']}}</strong></p>
                         </div>
                     </a>
