@@ -5,7 +5,7 @@
         <h1>DISHES</h1>
 
         <div>
-            <a href="{{route('dish.create')}}">Add a new dish</a>
+            <a href="{{route('dish.create')}}" class="add-new">Add a new dish</a>
 
             <div class="dish-list">
                 @if(count($dishes) == 0)

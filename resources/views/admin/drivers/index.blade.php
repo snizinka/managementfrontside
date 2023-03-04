@@ -5,7 +5,7 @@
         <h1>Drivers</h1>
 
         <div>
-            <a href="{{route('addDriver')}}">Add a new driver</a>
+            <a href="{{route('addDriver')}}" class="add-new">Add a new driver</a>
 
             <div class="dish-list">
                 @if(count($drivers) == 0)

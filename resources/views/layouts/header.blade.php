@@ -28,8 +28,15 @@
                     <li><a href="{{route('order.index')}}">Orders</a></li>
                 @endif
             @if(session('token') != null)
-                    <li><a href="{{route('logout')}}">Log out</a></li>
-                    <li><a href="{{route('resetpassword')}}">Reset password</a></li>
+                   <li class="user-part">
+                       <a href="#" style="color: #FF1493;">USER</a>
+                       <ul class="user-links">
+                           <li><a href="{{route('logout')}}">Log out</a></li>
+                           @if(session('role') == 'customer')
+                                <li><a href="{{route('resetpassword')}}">Reset password</a></li>
+                           @endif
+                       </ul>
+                   </li>
             @endif
         </ul>
     </nav>

@@ -5,7 +5,7 @@
         <h1>Restaurants</h1>
 
         <div>
-            <a href="{{route('restaurant.create')}}">Add a new restaurant</a>
+            <a href="{{route('restaurant.create')}}" class="add-new">Add a new restaurant</a>
             <div class="dish-list">
                 @if(count($restaurants) == 0)
                     <div class="empty-array">
