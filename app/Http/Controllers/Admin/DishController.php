@@ -59,7 +59,7 @@ class DishController extends Controller
             'restaurant_id' => (int)$request->dishrestaurant
         ]);
 
-        dd($responseD);
+        return redirect()->route('dish.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class DishController extends Controller
         ])->get('http://127.0.0.1:8000/api/dishes/'.$id);
 
         if ($response->status() == 401) {
-            dd("Problems");
+            return view('notauthenticated');
         }
 
         $dish = $response->json()['data'];

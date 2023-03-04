@@ -157,3 +157,9 @@ nav ul li a:hover {
     flex-direction: column;
     gap: 20px;
 }
+
+.cart {
+    height: 60vh;
+    overflow: auto;
+    margin-bottom: 20px;
+}

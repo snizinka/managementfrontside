@@ -12,7 +12,7 @@
             <h2>Menu</h2>
                 <div class="dish-list">
                     @foreach($dishes as $dish)
-                        <a href="#">
+                        <a href="{{route('dishes', $dish['id'])}}">
                             <div class="dish">
                                 <p><strong>{{$dish['attributes']['name']}}</strong></p>
                                 <p>Price: {{$dish['attributes']['price']}}</p>
