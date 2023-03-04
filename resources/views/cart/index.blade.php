@@ -27,10 +27,8 @@
                                     @csrf
                                     <input type="submit" value="+">
                                 </form>
-                                <form action="{{route('cartRemove', $dish['id'])}}">
-                                    @csrf
-                                    <input type="submit" value="-">
-                                </form>
+
+                                <a href="{{route('cartRemove', $dish['id'])}}" style="padding: 3px; background: palevioletred;">-</a>
                             </div>
                         </div>
                     </a>

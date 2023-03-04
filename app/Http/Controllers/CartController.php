@@ -74,7 +74,7 @@ class CartController extends Controller
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->post('http://127.0.0.1:8000/api/cart/remove', [
+        ])->delete('http://127.0.0.1:8000/api/cart/remove', [
             'id' => $id,
         ]);
 
