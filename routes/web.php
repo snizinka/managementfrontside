@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DishController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DishController;
-use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RestaurantController as RC;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,13 +20,16 @@ Route::get('/register', [AuthController::class, 'showSignup'])->name('register')
 
 Route::post('/register', [AuthController::class, 'signup'])->name('register-store');
 
-Route::get('/logouts', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/restaurant/{name}', [RestaurantController::class, 'restaurant'])->name('restaurant')->middleware('isauthorized');
+Route::get('/home', [Controller::class, 'home'])->name('home');
 
-Route::get('/home', [Controller::class, 'home']);
+Route::get('/restaurants', [RC::class, 'getRestaurants'])->name('restaurant');
 
-Route::prefix('admin')->group(function () {
+Route::get('/restaurants/{id}', [RC::class, 'getRestaurant']);
+
+Route::prefix('admin')->middleware(['isadmin'])->group(function () {
     Route::resource('dish',DishController::class);
     Route::resource('order',OrderController::class);
+    Route::resource('restaurant',RestaurantController::class);
 });

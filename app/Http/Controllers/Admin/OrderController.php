@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -19,7 +20,7 @@ class OrderController extends Controller
 
         $orders = $response->json()['data'];
 
-        return view('orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders'));
     }
 
 
@@ -45,7 +46,7 @@ class OrderController extends Controller
 
         $orders = $response->json()['data'];
 
-        return view('orders.show', compact('orders'));
+        return view('admin.orders.show', compact('orders'));
     }
 
     public function edit(string $id)
@@ -65,7 +66,7 @@ class OrderController extends Controller
         $orders = $response->json()['data'];
         $drivers = $responseB->json()['data'];
 
-        return view('orders.form', compact('orders', 'drivers'));
+        return view('admin.orders.form', compact('orders', 'drivers'));
     }
 
 

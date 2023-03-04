@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -19,7 +20,7 @@ class DishController extends Controller
 
         $dishes = $response->json()['data'];
 
-        return view('dishes.index', compact('dishes'));
+        return view('admin.dishes.index', compact('dishes'));
     }
 
     /**
@@ -38,7 +39,7 @@ class DishController extends Controller
         $categories = $responseC->json()['data'];
         $restaurants = $responseR->json()['data'];
 
-        return view('dishes.form', compact(['categories', 'restaurants']));
+        return view('admin.dishes.form', compact(['categories', 'restaurants']));
     }
 
     /**
@@ -76,7 +77,7 @@ class DishController extends Controller
 
         $dish = $response->json()['data'];
 
-        return view('dishes.show', compact('dish'));
+        return view('admin.dishes.show', compact('dish'));
     }
 
     /**
@@ -104,7 +105,7 @@ class DishController extends Controller
         $categories = $responseC->json()['data'];
         $restaurants = $responseR->json()['data'];
 
-        return view('dishes.form', compact(['dish', 'categories', 'restaurants']));
+        return view('admin.dishes.form', compact(['dish', 'categories', 'restaurants']));
     }
 
     /**

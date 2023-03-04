@@ -2,9 +2,10 @@
 
 @section('content')
     <div>
-        <h1>HOME</h1>
+        <h1>Restaurants</h1>
 
         <div>
+            <a href="{{route('restaurant.create')}}">Add a new restaurant</a>
             <div class="dish-list">
                 @foreach($restaurants as $restaurant)
                     <a href="{{route('restaurant.show', $restaurant['id'])}}">
@@ -16,5 +17,6 @@
                 @endforeach
             </div>
         </div>
+
     </div>
 @endsection

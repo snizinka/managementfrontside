@@ -2,7 +2,7 @@
 
 @section('content')
     <div>
-        <h1>DISHES</h1>
+        <h1>Orders</h1>
 
         <div>
 
