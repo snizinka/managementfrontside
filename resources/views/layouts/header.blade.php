@@ -17,14 +17,27 @@
                 <li><a href="{{route('register')}}">Register</a></li>
             @else
                 <li><a href="{{route('home')}}">Home</a></li>
-                <li><a href="{{route('cart')}}">Cart</a></li>
-                <li><a href="{{route('logout')}}">Log out</a></li>
-            @endif
-                @if(session('role') == 'admin')
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                    <li><a href="{{route('order.index')}}">Orders</a></li>
-                    <li><a href="{{route('dish.index')}}">Dishes</a></li>
+                @if(session('role') != 'admin')
+                    <li><a href="{{route('cart')}}">Cart</a></li>
                 @endif
+            @endif
+            @if(session('role') == 'admin')
+                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('dish.index')}}">Dishes</a></li>
+                    <li><a href="{{route('getDrivers')}}">Drivers</a></li>
+                    <li><a href="{{route('order.index')}}">Orders</a></li>
+                @endif
+            @if(session('token') != null)
+                   <li class="user-part">
+                       <a href="#" style="color: #FF1493;">USER</a>
+                       <ul class="user-links">
+                           <li><a href="{{route('logout')}}">Log out</a></li>
+                           @if(session('role') == 'customer')
+                                <li><a href="{{route('resetpassword')}}">Reset password</a></li>
+                           @endif
+                       </ul>
+                   </li>
+            @endif
         </ul>
     </nav>
 

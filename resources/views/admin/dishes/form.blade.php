@@ -19,26 +19,52 @@
         @isset($dish)
             @method('PUT')
         @endisset
-        <p>Dish image</p>
-        <input type="file" name="dishimage" accept="image/png, image/jpeg">
         <p>Dish name</p>
         <input type="text" name="dishname"
                @isset($dish)
                    value="{{$dish['attributes']['name']}}"
             @endisset
         >
+        @isset($errors)
+            <span class="invalid-feedback" role="alert">
+                <strong>
+                    @if($errors->has('name'))
+                        <p>{{$errors->first('name')}}</p>
+                    @endif
+                </strong>
+            </span>
+        @endisset
+
         <p>Dish price</p>
         <input type="text" name="dishprice"
                @isset($dish)
                    value="{{$dish['attributes']['price']}}"
             @endisset
         >
+        @isset($errors)
+            <span class="invalid-feedback" role="alert">
+                <strong>
+                    @if($errors->has('price'))
+                        <p>{{$errors->first('price')}}</p>
+                    @endif
+                </strong>
+            </span>
+        @endisset
         <p>Dish products</p>
         <input type="text" name="dishproducts"
                @isset($dish)
                    value="{{$dish['attributes']['ingredients']}}"
             @endisset
         >
+        @isset($errors)
+            <span class="invalid-feedback" role="alert">
+                <strong>
+                    @if($errors->has('ingredients'))
+                        <p>{{$errors->first('ingredients')}}</p>
+                    @endif
+                </strong>
+            </span>
+        @endisset
 
         <p>Dish category</p>
         <select name="dishcategory">

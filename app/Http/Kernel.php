@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAuthorized;
+use App\Http\Middleware\IsCustomer;
 use App\Http\Middleware\IsNotAuthorized;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -56,6 +57,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'iscustomer' => IsCustomer::class,
         'isadmin' => IsAdmin::class,
         'isnotauthorized' => IsNotAuthorized::class,
         'isauthorized' => IsAuthorized::class,

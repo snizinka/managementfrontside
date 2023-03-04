@@ -9,12 +9,14 @@
 </head>
 <body>
 
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
+                    @isset($unauthorized)
+                        <h1>{{$unauthorized['unauthorized'][0]}}</h1>
+                    @endisset
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('login-store') }}">
@@ -26,16 +28,14 @@
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-                                    @isset($error)
+                                    @isset($errors)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($error['email'])
-                                                    @foreach($error['email'] as $erro)
-                                                        <p>{{$erro}}</p>
-                                                    @endforeach
-                                                @endisset
+                                                @if($errors->has('email'))
+                                                    <p>{{$errors->first('email')}}</p>
+                                                @endif
                                             </strong>
-                                        </span>
+                                         </span>
                                     @endisset
                                 </div>
                             </div>
@@ -46,16 +46,14 @@
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
 
-                                    @isset($error)
+                                    @isset($errors)
                                         <span class="invalid-feedback" role="alert">
                                             <strong>
-                                                @isset($error['password'])
-                                                    @foreach($error['password'] as $erro)
-                                                        <p>{{$erro}}</p>
-                                                    @endforeach
-                                                @endisset
+                                                @if($errors->has('password'))
+                                                    <p>{{$errors->first('password')}}</p>
+                                                @endif
                                             </strong>
-                                        </span>
+                                         </span>
                                     @endisset
                                 </div>
                             </div>
@@ -68,6 +66,14 @@
                                         <label class="form-check-label" for="remember">
                                             {{ __('Remember Me') }}
                                         </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-check">
+                                        <a href="{{route('resetView')}}">{{ __('Reset password') }}</a>
                                     </div>
                                 </div>
                             </div>

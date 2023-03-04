@@ -12,7 +12,7 @@ class OrderController extends Controller
     }
 
     public function order(Request $request) {
-        $responseD = Http::withHeaders([
+        $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
@@ -21,5 +21,27 @@ class OrderController extends Controller
             'phone' => $request->phone,
             'username' => $request->username,
         ]);
+
+        if ($response->status() >= 300) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json()['errors'];
+
+                return redirect()->route('order')->withErrors($error);
+            }
+        }
+
+        if ($response->status() != 200) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
+
+        return redirect()->route('home');
     }
 }

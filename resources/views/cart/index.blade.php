@@ -7,6 +7,11 @@
         <div class="cart">
 
             <div class="dish-list">
+                @if(count($dishes) == 0)
+                    <div class="empty-array">
+                        <h2>The cart is empty currently. But you can change it :]</h2>
+                    </div>
+                @endif
                 @foreach($dishes as $dish)
                     <a href="{{route('dishes', $dish['relationships']['dish']['id'])}}">
                         <div class="dish">
@@ -22,10 +27,8 @@
                                     @csrf
                                     <input type="submit" value="+">
                                 </form>
-                                <form action="{{route('cartRemove', $dish['id'])}}">
-                                    @csrf
-                                    <input type="submit" value="-">
-                                </form>
+
+                                <a href="{{route('cartRemove', $dish['id'])}}" style="padding: 3px; background: palevioletred;">-</a>
                             </div>
                         </div>
                     </a>

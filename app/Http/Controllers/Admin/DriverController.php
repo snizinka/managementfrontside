@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class RestaurantController extends Controller
+class DriverController extends Controller
 {
-    public function index()
-    {
+    public function getDrivers() {
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->get('http://127.0.0.1:8000/api/restaurants');
+        ])->get('http://127.0.0.1:8000/api/drivers');
 
         if ($response->status() >= 300) {
             if ($response->status() == 401) {
@@ -24,25 +23,53 @@ class RestaurantController extends Controller
             }
         }
 
-        $restaurants = $response->json()['data'];
+        $drivers = $response->json();
 
-        return view('admin.restaurants.index', compact('restaurants'));
+        if ($drivers == []) {
+            return view('admin.drivers.index', compact('drivers'));
+        }
+
+        $drivers = $drivers['data'];
+        return view('admin.drivers.index', compact('drivers'));
     }
 
-    public function create()
-    {
-        return view('admin.restaurants.form');
-    }
-    public function store(Request $request)
-    {
+    public function showDriver(string $id) {
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->post('http://127.0.0.1:8000/api/restaurants', [
-            'name' => $request->restaurantname,
-            'address' => $request->restaurantaddress,
-            'contacts' => $request->restaurantcontacts,
+        ])->get('http://127.0.0.1:8000/api/drivers/'.$id);
+
+        if ($response->status() >= 300) {
+            if ($response->status() == 401) {
+                $unauthorized = $response->json()['errors'];
+
+                return view('auth.login', compact('unauthorized'));
+            }
+        }
+
+        $drivers = $response->json();
+
+        if ($drivers == []) {
+            return view('admin.drivers.index', compact('drivers'));
+        }
+
+        $driver = $drivers['data'];
+        return view('admin.drivers.show', compact('driver'));
+    }
+
+    public function addDriver() {
+        return view('admin.drivers.form');
+    }
+
+    public function insertDriver(Request $request) {
+        $response = Http::withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Content-Type' => 'application/vnd.api+json',
+            'Authorization' => 'Bearer ' . session('token'),
+        ])->post('http://127.0.0.1:8000/api/drivers', [
+            'lastname' => $request->lastname,
+            'name' => $request->name,
         ]);
 
         if ($response->status() >= 300) {
@@ -53,19 +80,9 @@ class RestaurantController extends Controller
             }else {
                 $error = $response->json()['errors'];
 
-                return redirect()->route('restaurant.create')->withErrors($error);
+                return redirect()->route('addDriver')->withErrors($error);
             }
         }
-
-        return redirect()->route('restaurant.index');
-    }
-    public function show(string $id)
-    {
-        $response = Http::withHeaders([
-            'Accept' => 'application/vnd.api+json',
-            'Content-Type' => 'application/vnd.api+json',
-            'Authorization' => 'Bearer ' . session('token'),
-        ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
 
         if ($response->status() >= 300) {
             if ($response->status() == 401) {
@@ -75,22 +92,15 @@ class RestaurantController extends Controller
             }
         }
 
-        if($response->json() == []) {
-            return redirect()->route('restaurant');
-        }
-
-        $restaurants = $response->json()['data'];
-
-        return view('admin.restaurants.show', compact('restaurants'));
+        return redirect()->route('getDrivers');
     }
-    public function edit(string $id)
-    {
+
+    public function updateFormDriver(string $id) {
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->get('http://127.0.0.1:8000/api/restaurants/'.$id);
-
+        ])->get('http://127.0.0.1:8000/api/drivers/'.$id);
 
         if ($response->status() >= 300) {
             if ($response->status() == 401) {
@@ -100,24 +110,19 @@ class RestaurantController extends Controller
             }
         }
 
-        if($response->json() == []) {
-            return redirect()->route('restaurant');
-        }
+        $driver = $response->json()['data'];
 
-        $restaurants = $response->json()['data'];
-
-        return view('admin.restaurants.form', compact('restaurants'));
+        return view('admin.drivers.form', compact('driver'));
     }
-    public function update(Request $request, string $id)
-    {
+
+    public function updateDriver(Request $request, string $id) {
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->post('http://127.0.0.1:8000/api/restaurants/'.$id, [
-            'name' => $request->restaurantname,
-            'address' => $request->restaurantaddress,
-            'contacts' => $request->restaurantcontacts,
+        ])->put('http://127.0.0.1:8000/api/drivers/'.$id, [
+            'lastname' => $request->lastname,
+            'name' => $request->name,
         ]);
 
         if ($response->status() >= 300) {
@@ -128,19 +133,19 @@ class RestaurantController extends Controller
             }else {
                 $error = $response->json()['errors'];
 
-                return redirect()->route('restaurant.edit', $id)->withErrors($error);
+                return redirect()->route('updateFormDriver', $id)->withErrors($error);
             }
         }
 
-        return redirect()->route('restaurant.index');
+        return redirect()->route('getDrivers');
     }
-    public function destroy(string $id)
-    {
+
+    public function removeDriver(string $id) {
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json',
             'Authorization' => 'Bearer ' . session('token'),
-        ])->delete('http://127.0.0.1:8000/api/restaurants/'.$id);
+        ])->delete('http://127.0.0.1:8000/api/drivers/'.$id);
 
         if ($response->status() >= 300) {
             if ($response->status() == 401) {
@@ -150,6 +155,6 @@ class RestaurantController extends Controller
             }
         }
 
-        return redirect()->route('restaurant.index');
+        return redirect()->route('getDrivers');
     }
 }

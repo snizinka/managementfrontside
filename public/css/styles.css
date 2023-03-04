@@ -163,3 +163,33 @@ nav ul li a:hover {
     overflow: auto;
     margin-bottom: 20px;
 }
+
+.add-new {
+    display: inline-block;
+    padding: 8px 10px;
+    background: #1a202c;
+    border-radius: 8px;
+    color: #FF1493;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.user-links {
+    padding: 0;
+    flex-direction: column;
+    display: none;
+    position: absolute;
+}
+
+.user-links {
+    background: #F28B82;
+}
+
+.user-part:hover .user-links {
+    display: flex;
+}
+
+.user-part {
+    position: relative;
+    width: -webkit-fill-available;
+}
