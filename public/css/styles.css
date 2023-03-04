@@ -131,3 +131,29 @@ nav ul li a:hover {
     display: flex;
     justify-content: space-between;
 }
+
+.dish {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 1px 3px 8px .11px #4a5568;
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.dish-list a {
+    display: block;
+    min-width: 300px;
+    width: fit-content;
+}
+
+.dish p {
+    font-family: Arial;
+    color: #000;
+}
+
+.dish-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
