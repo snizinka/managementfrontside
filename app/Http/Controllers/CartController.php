@@ -57,7 +57,6 @@ class CartController extends Controller
                 return view('auth.login', compact('unauthorized'));
             }else {
                 $error = $response->json()['errors'];
-
                 return redirect()->route('cart.index')->withErrors($error);
             }
         }
