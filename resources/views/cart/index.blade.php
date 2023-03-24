@@ -12,26 +12,30 @@
                         <h2>The cart is empty currently. But you can change it :]</h2>
                     </div>
                 @endif
-                @foreach($dishes as $dish)
-                    <a href="{{route('dishes', $dish['relationships']['dish']['id'])}}">
-                        <div class="dish">
-                           <div>
-                               <p>"{{$dish['relationships']['dish']['name']}}"</p>
-                               <p>Price: {{$dish['relationships']['dish']['price']}}</p>
-                               <p>Ingredients: {{$dish['relationships']['dish']['ingredients']}}</p>
-                               <p>Restaurant: <strong>{{$dish['relationships']['restaurant']['name']}}</strong></p>
-                               <p>Amount: <strong>{{$dish['attributes']['count']}}</strong></p>
-                           </div>
-                            <div>
-                                <form action="{{route('dishesAdd', $dish['relationships']['dish']['id'])}}" method="POST">
-                                    @csrf
-                                    <input type="submit" value="+">
-                                </form>
+                @foreach($dishes as $order)
+                    @foreach($order['relationships']['order_items'] as $order_item)
+                        @foreach($order_item['relationships']['items'] as $dish)
+                                <a href="{{route('dishes', $dish['dish']['id'])}}">
+                                    <div class="dish">
+                                        <div>
+                                            <p>"{{$dish['dish']['name']}}"</p>
+                                            <p>Price: {{$dish['dish']['price']}}</p>
+                                            <p>Ingredients: {{$dish['dish']['ingredients']}}</p>
+                                            <p>Restaurant: <strong>{{$dish['restaurant']['name']}}</strong></p>
+                                            <p>Amount: <strong>{{$dish['count']}}</strong></p>
+                                        </div>
+                                        <div>
+                                            <form action="{{route('dishesAdd', $dish['dish']['id'])}}" method="POST">
+                                                @csrf
+                                                <input type="submit" value="+">
+                                            </form>
 
-                                <a href="{{route('cartRemove', $dish['id'])}}" style="padding: 3px; background: palevioletred;">-</a>
-                            </div>
-                        </div>
-                    </a>
+                                            <a href="{{route('cartRemove', $dish['id'])}}" style="padding: 3px; background: palevioletred;">-</a>
+                                        </div>
+                                    </div>
+                                </a>
+                        @endforeach
+                    @endforeach
                 @endforeach
             </div>
         </div>

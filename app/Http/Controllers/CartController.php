@@ -31,7 +31,11 @@ class CartController extends Controller
         $dishes = $dishes['data'];
         $total = 0;
         foreach ($dishes as $dish) {
-            $total += (float) $dish['relationships']['dish']['price'] * $dish['attributes']['count'];
+            foreach ($dish['relationships']['order_items'] as $order_item) {
+                foreach ($order_item['relationships']['items'] as $item) {
+                    $total += (float) $item['dish']['price'] * $item['count'];
+                }
+            }
         }
 
         return view('cart.index', compact('dishes', 'total'));
