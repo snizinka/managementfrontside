@@ -23,6 +23,7 @@ class CartController extends Controller
         }
 
         $dishes = $response->json();
+        dd($dishes);
 
         if ($dishes == []) {
             return view('cart.index', compact('dishes'));
