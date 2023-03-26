@@ -3,9 +3,15 @@
 @section('content')
     <div>
         <h1 style="margin-bottom: 60px;">CART</h1>
-
+        @if($unavailable > 0)
+            <div>
+                <h3 style="color: orangered">Dishes unavailable: {{$unavailable}}</h3>
+            </div>
+        @endif
+        @foreach($errors->all() as $error)
+            <h1 style="font-weight: bold">{{$error}}</h1>
+        @endforeach
         <div class="cart">
-
             <div class="dish-list">
                 @if(count($dishes) == 0)
                     <div class="empty-array">
@@ -13,8 +19,7 @@
                     </div>
                 @endif
                 @foreach($dishes as $order)
-                    @foreach($order['relationships']['order_items'] as $order_item)
-                        @foreach($order_item['relationships']['items'] as $dish)
+                    @foreach($order['relationships']['items'] as $dish)
                                 <a href="{{route('dishes', $dish['dish']['id'])}}">
                                     <div class="dish">
                                         <div>
@@ -23,6 +28,7 @@
                                             <p>Ingredients: {{$dish['dish']['ingredients']}}</p>
                                             <p>Restaurant: <strong>{{$dish['restaurant']['name']}}</strong></p>
                                             <p>Amount: <strong>{{$dish['count']}}</strong></p>
+                                            <p>Availability: <strong>{{$dish['availability']}}</strong></p>
                                         </div>
                                         <div>
                                             <form action="{{route('dishesAdd', $dish['dish']['id'])}}" method="POST">
@@ -34,7 +40,6 @@
                                         </div>
                                     </div>
                                 </a>
-                        @endforeach
                     @endforeach
                 @endforeach
             </div>

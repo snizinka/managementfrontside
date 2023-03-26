@@ -28,9 +28,10 @@ class OrderController extends Controller
 
                 return view('auth.login', compact('unauthorized'));
             }else {
-                $error = $response->json()['errors'];
 
-                return redirect()->route('order')->withErrors($error);
+                $error = $response->json();
+
+                return redirect()->route('cart')->withErrors($error);
             }
         }
 
