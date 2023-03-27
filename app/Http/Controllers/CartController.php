@@ -19,6 +19,12 @@ class CartController extends Controller
                 $unauthorized = $response->json()['errors'];
 
                 return view('auth.login', compact('unauthorized'));
+            }else {
+                $error = $response->json();
+                $dishes = [];
+                $total = 0;
+                $unavailable = 0;
+                return view('cart.index', compact('dishes', 'total', 'unavailable'))->withErrors($error);
             }
         }
 
@@ -28,13 +34,17 @@ class CartController extends Controller
             return view('cart.index', compact('dishes'));
         }
 
-        $dishes = $dishes['data'];
+        $unavailable = 0;
+        $dishes = $dishes['data']['relationships']['order_items'];
         $total = 0;
         foreach ($dishes as $dish) {
-            $total += (float) $dish['relationships']['dish']['price'] * $dish['attributes']['count'];
+            foreach ($dish['relationships']['items'] as $order_item) {
+                $total += (float) $order_item['dish']['price'] * $order_item['count'];
+                $unavailable += $order_item['availability'] == 'available' ? 0 : 1;
+            }
         }
 
-        return view('cart.index', compact('dishes', 'total'));
+        return view('cart.index', compact('dishes', 'total', 'unavailable'));
     }
 
     public function addToCart(string $id) {
@@ -53,7 +63,6 @@ class CartController extends Controller
                 return view('auth.login', compact('unauthorized'));
             }else {
                 $error = $response->json()['errors'];
-
                 return redirect()->route('cart.index')->withErrors($error);
             }
         }

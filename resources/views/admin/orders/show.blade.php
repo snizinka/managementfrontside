@@ -2,6 +2,7 @@
 
 @section('content')
     <div>
+
         <h1>{{$orders['attributes']['address']}}</h1>
 
         <form action="{{route('order.destroy', $orders['id'])}}" method="POST">
